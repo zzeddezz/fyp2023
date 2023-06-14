@@ -23,7 +23,7 @@ import {
 // Material Dashboard 2 PRO React context
 import { useMaterialUIController } from "context/md";
 
-function SidenavCollapse({ icon, name, children, active, noCollapse, open, ...rest }) {
+function SidenavCollapse({ icon, name, children, active, noCollapse, open, color, ...rest }) {
   const [controller] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } = controller;
 
@@ -33,11 +33,11 @@ function SidenavCollapse({ icon, name, children, active, noCollapse, open, ...re
         <MDBox
           {...rest}
           sx={(theme) =>
-            collapseItem(theme, { active, transparentSidenav, whiteSidenav, darkMode })
+            collapseItem(theme, { color, children, active, transparentSidenav, whiteSidenav, darkMode })
           }
         >
           <ListItemIcon
-            sx={(theme) => collapseIconBox(theme, { transparentSidenav, whiteSidenav, darkMode })}
+            sx={(theme) => collapseIconBox(theme, { transparentSidenav, whiteSidenav, darkMode, active, children })}
           >
             {typeof icon === "string" ? (
               <Icon sx={(theme) => collapseIcon(theme, { active })}>{icon}</Icon>
@@ -86,6 +86,7 @@ function SidenavCollapse({ icon, name, children, active, noCollapse, open, ...re
 
 // Setting default values for the props of SidenavCollapse
 SidenavCollapse.defaultProps = {
+  color: "info",
   active: false,
   noCollapse: false,
   children: false,
@@ -94,6 +95,7 @@ SidenavCollapse.defaultProps = {
 
 // Typechecking props for the SidenavCollapse
 SidenavCollapse.propTypes = {
+  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
   icon: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
   children: PropTypes.node,

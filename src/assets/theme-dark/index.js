@@ -90,6 +90,7 @@ export default createTheme({
         ...globals,
         ...flatpickr,
         ...container,
+        ":root":{colorScheme: "dark"}
       },
     },
     MuiDrawer: { ...sidenav },

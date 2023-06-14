@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-
 import { useState, useEffect, Fragment } from "react";
 
 // prop-types is a library for typechecking of props.
@@ -135,7 +134,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
                         width="1.5rem"
                         height="1.5rem"
                         borderRadius="md"
-                        color="text"
+                        color="secondary"
                         mr={1}
                         fontSize="1rem"
                         lineHeight={1}
@@ -147,6 +146,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
                         variant="button"
                         fontWeight="bold"
                         textTransform="capitalize"
+                        color="inherit"
                       >
                         {col.name}
                       </MDTypography>
@@ -162,7 +162,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
                         minWidth="11.25rem"
                         display="block"
                         variant="button"
-                        color="text"
+                        color="secondary"
                         textTransform="capitalize"
                         fontWeight="regular"
                         py={0.625}
@@ -227,7 +227,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
             variant="button"
             textTransform="capitalize"
             minWidth={item.description ? "14rem" : "12rem"}
-            color={item.description ? "dark" : "text"}
+            color={item.description ? "dark" : "secondary"}
             fontWeight={item.description ? "bold" : "regular"}
             py={item.description ? 1 : 0.625}
             px={2}
@@ -259,7 +259,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
             }}
           >
             {item.description ? (
-              <MDBox display="flex" py={0.25} fontSize="1rem" color="text">
+              <MDBox display="flex" py={0.25} fontSize="1rem" color="secondary">
                 {typeof item.icon === "string" ? (
                   <Icon color="inherit">{item.icon}</Icon>
                 ) : (
@@ -271,16 +271,17 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
                     display="block"
                     fontWeight="bold"
                     textTransform="capitalize"
+                    color="inherit"
                   >
                     {item.name}
                   </MDTypography>
-                  <MDTypography variant="button" fontWeight="regular" color="text">
+                  <MDTypography variant="button" fontWeight="regular" color="secondary">
                     {item.description}
                   </MDTypography>
                 </MDBox>
               </MDBox>
             ) : (
-              <MDBox display="flex" alignItems="center" color="text">
+              <MDBox display="flex" alignItems="center" color="secondary">
                 <Icon sx={{ mr: 1 }}>{item.icon}</Icon>
                 {item.name}
               </MDBox>
@@ -301,7 +302,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
   // Routes dropdown menu
   const dropdownMenu = (
     <Popper
-      anchorEl={dropdown}
+      anchorEl={dropdownEl}
       popperRef={null}
       open={Boolean(dropdown)}
       placement="top-start"
@@ -320,7 +321,6 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
       onMouseLeave={() => {
         if (!nestedDropdown) {
           setDropdown(null);
-          setDropdownName("");
         }
       }}
     >
@@ -379,7 +379,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
                     variant="button"
                     textTransform="capitalize"
                     minWidth={item.description ? "14rem" : "12rem"}
-                    color={item.description ? "dark" : "text"}
+                    color={item.description ? "dark" : "secondary"}
                     fontWeight={item.description ? "bold" : "regular"}
                     py={item.description ? 1 : 0.625}
                     px={2}
@@ -404,7 +404,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
                         <MDTypography
                           display="block"
                           variant="button"
-                          color="text"
+                          color="secondary"
                           fontWeight="regular"
                           sx={{ transition: "all 300ms linear" }}
                         >
@@ -435,7 +435,7 @@ function DefaultNavbar({ routes, brand, transparent, light, action }) {
   // Dropdown menu for the nested dropdowns
   const nestedDropdownMenu = (
     <Popper
-      anchorEl={nestedDropdown}
+      anchorEl={nestedDropdownEl}
       popperRef={null}
       open={Boolean(nestedDropdown)}
       placement="right-start"

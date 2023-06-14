@@ -116,6 +116,7 @@ function Charts() {
               <DefaultLineChart
                 icon={{ component: "insights" }}
                 title="Line chart"
+                height="20rem"
                 description="Product insights"
                 chart={lineData}
               />
@@ -124,6 +125,7 @@ function Charts() {
               <GradientLineChart
                 icon={{ component: "show_chart" }}
                 title="Line chart with gradient"
+                height="20rem"
                 description="Visits from devices"
                 chart={lineGradientData}
               />
@@ -136,6 +138,7 @@ function Charts() {
               <VerticalBarChart
                 icon={{ color: "dark", component: "leaderboard" }}
                 title="Bar chart"
+                height="20rem"
                 description="Sales related to age average"
                 chart={barData}
               />
@@ -144,6 +147,7 @@ function Charts() {
               <HorizontalBarChart
                 icon={{ color: "dark", component: "splitscreen" }}
                 title="Bar chart horizontal"
+                height="20rem"
                 description="Sales related to age average"
                 chart={barHorizontalData}
               />
@@ -156,8 +160,8 @@ function Charts() {
               <MixedChart
                 icon={{ color: "primary", component: "auto_graph" }}
                 title="Mixed chart"
+                height="20rem"
                 description="Analytics Insights"
-                height="19.75rem"
                 chart={mixedData}
               />
             </Grid>
@@ -165,6 +169,7 @@ function Charts() {
               <BubbleChart
                 icon={{ color: "primary", component: "multiline_chart" }}
                 title="Bubble chart"
+                height="20rem"
                 description="Users divided by regions"
                 chart={bubbleData}
               />
@@ -177,6 +182,7 @@ function Charts() {
               <DefaultDoughnutChart
                 icon={{ color: "success", component: "donut_small" }}
                 title="Doughnut chart"
+                height="20rem"
                 description="Affiliates program"
                 chart={doughnutData}
               />
@@ -185,6 +191,7 @@ function Charts() {
               <PieChart
                 icon={{ color: "success", component: "donut_small" }}
                 title="Pie chart"
+                height="20rem"
                 description="Analytics Insights"
                 chart={pieData}
               />
@@ -197,6 +204,7 @@ function Charts() {
               <RadarChart
                 icon={{ color: "warning", component: "data_saver_on" }}
                 title="Radar chart"
+                height="32rem"
                 description="Sciences score"
                 chart={radarData}
               />
@@ -205,6 +213,7 @@ function Charts() {
               <PolarChart
                 icon={{ color: "warning", component: "scatter_plot" }}
                 title="Polar chart"
+                height="32rem"
                 description="Analytics Insights"
                 chart={polarData}
               />

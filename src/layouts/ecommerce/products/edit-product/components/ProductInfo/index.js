@@ -59,7 +59,7 @@ function ProductInfo() {
                   </MDTypography>
                 </MDTypography>
               </MDBox>
-              <MDEditor value={editorValue} onChange={setEditorValue} />
+              <MDEditor />
             </Grid>
             <Grid item xs={12} sm={6}>
               <MDBox mb={3}>

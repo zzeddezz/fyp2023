@@ -13,7 +13,7 @@ import team4 from "assets/images/team-4.jpg";
 import team5 from "assets/images/team-5.jpg";
 import ivana from "assets/images/ivana-squares.jpg";
 
-const dataTableData = {
+const dataTableDataDefault = {
   columns: [
     { Header: "id", accessor: "id", Cell: ({ value }) => <IdCell id={value} /> },
     {
@@ -162,4 +162,4 @@ const dataTableData = {
   ],
 };
 
-export default dataTableData;
+export default dataTableDataDefault;

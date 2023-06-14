@@ -5,6 +5,17 @@ import PropTypes from "prop-types";
 
 // react-chartjs-2 components
 import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -17,6 +28,17 @@ import MDProgress from "components/MDBase/MDProgress";
 
 // ProgressLineChart configurations
 import configs from "components/MDComponents/Charts/LineCharts/ProgressLineChart/config";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 function ProgressLineChart({ color, icon, title, count, progress, height, chart }) {
   const { data, options } = configs(color, chart.labels || [], title, chart.data || []);
@@ -65,7 +87,7 @@ function ProgressLineChart({ color, icon, title, count, progress, height, chart 
       {useMemo(
         () => (
           <MDBox mt={2}>
-            <Line data={data} options={options} style={{ height }} />
+            <Line data={data} options={options} style={{ height }} redraw />
           </MDBox>
         ),
         [chart, height, color]

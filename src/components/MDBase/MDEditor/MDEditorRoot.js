@@ -6,34 +6,39 @@ export default styled("div")(({ theme, ownerState }) => {
   const { darkMode } = ownerState;
 
   const { borderRadius } = borders;
-  const { size } = typography;
-  const { text, white, dark } = palette;
+  const { inputBorderColor, grey, white } = palette;
 
   return {
-    "& .ql-toolbar": {
+    "& .rdw-editor-wrapper": {
+      borderRadius: borderRadius.md,
+      border: `1px solid ${inputBorderColor}`,
+    },
+
+    "& .rdw-editor-toolbar": {
+      border: 0,
+      borderBottom: `1px solid ${inputBorderColor}`,
       borderRadius: `${borderRadius.md} ${borderRadius.md} 0 0`,
+      backgroundColor: "transparent",
+    },
 
-      "& .ql-picker, & .ql-stroke": {
-        stroke: `${darkMode ? white.main : dark.main} !important`,
-        color: `${darkMode ? white.main : dark.main} !important`,
+    "& .rdw-option-wrapper, & .rdw-dropdown-wrapper": {
+      borderColor: grey[200],
+      backgroundColor: darkMode ? grey[500] : white,
+
+      "&:hover": {
+        boxShadow: "none",
+        borderColor: grey[400],
       },
     },
 
-    "& .ql-container": {
-      borderRadius: `0 0 ${borderRadius.md} ${borderRadius.md}`,
+    "& .rdw-option-active": {
+      boxShadow: "none",
+      borderColor: grey[600],
     },
 
-    "& .ql-editor": {
-      color: darkMode ? white.main : text.main,
-
-      "& p": {
-        fontSize: size.md,
-        color: darkMode ? white.main : text.main,
-      },
-
-      "& ul li": {
-        color: darkMode ? white.main : text.main,
-      },
+    "& .public-DraftStyleDefault-block": {
+      margin: 0,
+      padding: "8px",
     },
   };
 });
