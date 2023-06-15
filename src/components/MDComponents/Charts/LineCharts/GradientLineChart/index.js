@@ -6,15 +6,15 @@ import PropTypes from "prop-types";
 // react-chartjs-2 components
 import { Line } from "react-chartjs-2";
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
 } from "chart.js";
 
 // @mui material components
@@ -35,14 +35,14 @@ import configs from "components/MDComponents/Charts/LineCharts/GradientLineChart
 import colors from "assets/theme/base/colors";
 
 ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
 );
 
 function GradientLineChart({ icon, title, description, height, chart }) {
@@ -50,11 +50,11 @@ function GradientLineChart({ icon, title, description, height, chart }) {
   const [chartData, setChartData] = useState({});
 
   useEffect(() => {
-      const chartElement = chartRef.current;
+    const chartElement = chartRef.current;
 
-      if (!chartElement) return;
+    if (!chartElement) return;
 
-      const chartDatasets = chart.datasets
+    const chartDatasets = chart.datasets
       ? chart.datasets.map((dataset) => ({
           ...dataset,
           tension: 0,
@@ -66,7 +66,7 @@ function GradientLineChart({ icon, title, description, height, chart }) {
           fill: true,
           maxBarThickness: 6,
           backgroundColor: gradientChartLine(
-              chartElement.ctx,
+            chartElement.ctx,
             colors[dataset.color] ? colors[dataset.color || "dark"].main : colors.dark.main
           ),
         }))
@@ -75,7 +75,7 @@ function GradientLineChart({ icon, title, description, height, chart }) {
     setChartData(configs(chart.labels || [], chartDatasets));
   }, [chart]);
 
-    const { data, options } = useMemo(() => chartData, [chartData]);
+  const { data, options } = useMemo(() => chartData, [chartData]);
 
   const renderChart = (
     <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>

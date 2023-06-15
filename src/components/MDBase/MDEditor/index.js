@@ -28,10 +28,10 @@ function MDEditor({ value }) {
   }, [editorState]);
 
   return (
-      <MDEditorRoot ownerState={{ darkMode }}>
-        {value && typeof value === "function" && value(convertedContent)}
-        <Editor editorState={editorState} onEditorStateChange={setEditorState} />
-      </MDEditorRoot>
+    <MDEditorRoot ownerState={{ darkMode }}>
+      {value && typeof value === "function" && value(convertedContent)}
+      <Editor editorState={editorState} onEditorStateChange={setEditorState} />
+    </MDEditorRoot>
   );
 }
 

@@ -6,15 +6,15 @@ import PropTypes from "prop-types";
 // react-chartjs-2 components
 import { Line } from "react-chartjs-2";
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
 } from "chart.js";
 
 // @mui material components
@@ -32,14 +32,14 @@ import configs from "components/MDComponents/Charts/LineCharts/DefaultLineChart/
 import colors from "assets/theme/base/colors";
 
 ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
 );
 
 function DefaultLineChart({ icon, title, description, height, chart }) {

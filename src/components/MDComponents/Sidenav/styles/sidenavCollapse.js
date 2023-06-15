@@ -12,9 +12,8 @@ function collapseItem(theme, ownerState) {
       let backgroundValue;
 
       if (!children) {
-        backgroundValue = active? palette[color].main : transparent.main;
-      }
-      else if (transparentSidenav && darkMode) {
+        backgroundValue = active ? palette[color].main : transparent.main;
+      } else if (transparentSidenav && darkMode) {
         backgroundValue = active ? rgba(white.main, 0.2) : transparent.main;
       } else if (transparentSidenav && !darkMode) {
         backgroundValue = active ? grey[300] : transparent.main;
@@ -30,7 +29,10 @@ function collapseItem(theme, ownerState) {
       let colorValue;
 
       if (!children) {
-        colorValue = ((!active && (transparentSidenav && !darkMode)) || (!active && whiteSidenav)) ? dark.main : white.main;
+        colorValue =
+          (!active && transparentSidenav && !darkMode) || (!active && whiteSidenav)
+            ? dark.main
+            : white.main;
       } else {
         colorValue = (transparentSidenav && !darkMode) || whiteSidenav ? dark.main : white.main;
       }
@@ -59,11 +61,14 @@ function collapseItem(theme, ownerState) {
         let colorValue;
 
         if (!children) {
-          colorValue = !active && rgba((transparentSidenav && !darkMode) || whiteSidenav ? grey[400] : white.main, 0.2);
+          colorValue =
+            !active &&
+            rgba((transparentSidenav && !darkMode) || whiteSidenav ? grey[400] : white.main, 0.2);
         } else {
-          colorValue = transparentSidenav && !darkMode
-        ? grey[300]
-        : rgba(whiteSidenav ? grey[400] : white.main, 0.2);
+          colorValue =
+            transparentSidenav && !darkMode
+              ? grey[300]
+              : rgba(whiteSidenav ? grey[400] : white.main, 0.2);
         }
 
         return colorValue;
@@ -87,7 +92,10 @@ function collapseIconBox(theme, ownerState) {
       let colorValue;
 
       if (!children) {
-        colorValue = ((!active && (transparentSidenav && !darkMode)) || (!active && whiteSidenav)) ? dark.main : white.main;
+        colorValue =
+          (!active && transparentSidenav && !darkMode) || (!active && whiteSidenav)
+            ? dark.main
+            : white.main;
       } else {
         colorValue = (transparentSidenav && !darkMode) || whiteSidenav ? dark.main : white.main;
       }

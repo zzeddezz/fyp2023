@@ -6,13 +6,13 @@ import PropTypes from "prop-types";
 // react-chartjs-2 components
 import { Bar } from "react-chartjs-2";
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
 } from "chart.js";
 
 // @mui material components
