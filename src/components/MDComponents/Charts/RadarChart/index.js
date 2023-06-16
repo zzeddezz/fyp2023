@@ -4,6 +4,15 @@ import { useMemo } from "react";
 import PropTypes from "prop-types";
 
 // react-chartjs-2 components
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import { Radar } from "react-chartjs-2";
 
 // @mui material components
@@ -23,7 +32,9 @@ import colors from "assets/theme/base/colors";
 // Material Dashboard 2 PRO React helper functions
 import rgba from "assets/theme/functions/rgba";
 
-function RadarChart({ icon, title, description, chart }) {
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+
+function RadarChart({ icon, title, description, height, chart }) {
   const chartDatasets = chart.datasets
     ? chart.datasets.map((dataset) => ({
         ...dataset,
@@ -43,9 +54,9 @@ function RadarChart({ icon, title, description, chart }) {
             <MDBox
               width="4rem"
               height="4rem"
-              bgColor={icon.color || "info"}
+              bgColor={icon.color || "dark"}
               variant="gradient"
-              coloredShadow={icon.color || "info"}
+              coloredShadow={icon.color || "dark"}
               borderRadius="xl"
               display="flex"
               justifyContent="center"
@@ -69,8 +80,8 @@ function RadarChart({ icon, title, description, chart }) {
       ) : null}
       {useMemo(
         () => (
-          <MDBox p={6}>
-            <Radar data={data} options={options} />
+          <MDBox p={6} height={height}>
+            <Radar data={data} options={options} redraw />
           </MDBox>
         ),
         [chart]
@@ -105,6 +116,7 @@ RadarChart.propTypes = {
   }),
   title: PropTypes.string,
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   chart: PropTypes.objectOf(PropTypes.array).isRequired,
 };
 

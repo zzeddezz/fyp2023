@@ -1,6 +1,17 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 
 // react-chartjs-2 components
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+} from "chart.js";
 import { Line } from "react-chartjs-2";
 
 // @mui material components
@@ -19,12 +30,22 @@ import configs from "layouts/applications/calendar/components/ProductivityChart/
 // Material Dashboard 2 PRO React base styles
 import typography from "assets/theme/base/typography";
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+);
+
 function ProductivityChart() {
   const { size } = typography;
   const chartRef = useRef(null);
   const [openMenu, setOpenMenu] = useState(null);
   const [chart, setChart] = useState([]);
-  const { data, options } = chart;
 
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(null);
@@ -46,6 +67,8 @@ function ProductivityChart() {
       <MenuItem onClick={handleCloseMenu}>Something else here</MenuItem>
     </Menu>
   );
+
+  const { data, options } = useMemo(() => chart, [chart]);
 
   return (
     <Card sx={{ overflow: "hidden" }}>
@@ -76,14 +99,16 @@ function ProductivityChart() {
             {renderMenu()}
           </MDBox>
         </MDBox>
-        {useMemo(
-          () => (
-            <MDBox ref={chartRef} sx={{ height: "6.25rem" }}>
-              <Line data={data} options={options} />
-            </MDBox>
-          ),
-          [chart]
-        )}
+        <MDBox sx={{ height: "6.25rem" }}>
+          <Line
+            ref={chartRef}
+            data={{
+              labels: data?.labels || [],
+              datasets: data?.datasets || [],
+            }}
+            options={options}
+          />
+        </MDBox>
       </MDBox>
     </Card>
   );

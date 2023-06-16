@@ -25,7 +25,6 @@ import { getAppCalendar } from "util/APIHelper";
 
 function Calendar() {
   const [calendarEventsData, setCalendarEventsData] = useState([]);
-  const [test, setTest] = useState({});
 
   useEffect(() => {
     const runAsync = async () => {
@@ -34,14 +33,6 @@ function Calendar() {
     };
     runAsync();
   }, []);
-
-  const handleDateClick = (arg) => { // bind with an arrow function
-    console.log(arg.dateStr);
-    setTest({
-      "sdf": arg.dateStr
-    });
-    console.log(test);
-  }
 
   return (
     <DashboardLayout>
@@ -59,7 +50,7 @@ function Calendar() {
                   initialDate="2021-08-10"
                   events={calendarEventsData}
                   selectable
-                  dateClick={(e)=>{handleDateClick(e)}}
+                  editable
                 />
               ),
               [calendarEventsData]

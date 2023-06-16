@@ -1,6 +1,6 @@
 function collapseItem(theme, ownerState) {
   const { palette, transitions, breakpoints, boxShadows, borders, functions } = theme;
-  const { active, transparentSidenav, whiteSidenav, darkMode } = ownerState;
+  const { active, transparentSidenav, whiteSidenav, darkMode, color, children } = ownerState;
 
   const { white, transparent, dark, grey } = palette;
   const { md } = boxShadows;
@@ -11,7 +11,9 @@ function collapseItem(theme, ownerState) {
     background: () => {
       let backgroundValue;
 
-      if (transparentSidenav && darkMode) {
+      if (!children) {
+        backgroundValue = active ? palette[color].main : transparent.main;
+      } else if (transparentSidenav && darkMode) {
         backgroundValue = active ? rgba(white.main, 0.2) : transparent.main;
       } else if (transparentSidenav && !darkMode) {
         backgroundValue = active ? grey[300] : transparent.main;
@@ -23,7 +25,20 @@ function collapseItem(theme, ownerState) {
 
       return backgroundValue;
     },
-    color: (transparentSidenav && !darkMode) || whiteSidenav ? dark.main : white.main,
+    color: () => {
+      let colorValue;
+
+      if (!children) {
+        colorValue =
+          (!active && transparentSidenav && !darkMode) || (!active && whiteSidenav)
+            ? dark.main
+            : white.main;
+      } else {
+        colorValue = (transparentSidenav && !darkMode) || whiteSidenav ? dark.main : white.main;
+      }
+
+      return colorValue;
+    },
     display: "flex",
     alignItems: "center",
     width: "100%",
@@ -42,17 +57,29 @@ function collapseItem(theme, ownerState) {
     },
 
     "&:hover, &:focus": {
-      backgroundColor:
-        transparentSidenav && !darkMode
-          ? grey[300]
-          : rgba(whiteSidenav ? grey[400] : white.main, 0.2),
+      backgroundColor: () => {
+        let colorValue;
+
+        if (!children) {
+          colorValue =
+            !active &&
+            rgba((transparentSidenav && !darkMode) || whiteSidenav ? grey[400] : white.main, 0.2);
+        } else {
+          colorValue =
+            transparentSidenav && !darkMode
+              ? grey[300]
+              : rgba(whiteSidenav ? grey[400] : white.main, 0.2);
+        }
+
+        return colorValue;
+      },
     },
   };
 }
 
 function collapseIconBox(theme, ownerState) {
   const { palette, transitions, borders, functions } = theme;
-  const { transparentSidenav, whiteSidenav, darkMode } = ownerState;
+  const { transparentSidenav, whiteSidenav, darkMode, active, children } = ownerState;
 
   const { white, dark } = palette;
   const { borderRadius } = borders;
@@ -61,7 +88,20 @@ function collapseIconBox(theme, ownerState) {
   return {
     minWidth: pxToRem(32),
     minHeight: pxToRem(32),
-    color: (transparentSidenav && !darkMode) || whiteSidenav ? dark.main : white.main,
+    color: () => {
+      let colorValue;
+
+      if (!children) {
+        colorValue =
+          (!active && transparentSidenav && !darkMode) || (!active && whiteSidenav)
+            ? dark.main
+            : white.main;
+      } else {
+        colorValue = (transparentSidenav && !darkMode) || whiteSidenav ? dark.main : white.main;
+      }
+
+      return colorValue;
+    },
     borderRadius: borderRadius.md,
     display: "grid",
     placeItems: "center",
@@ -140,7 +180,7 @@ function collapseArrow(theme, ownerState) {
       duration: transitions.duration.shorter,
     }),
 
-    [breakpoints.up("xl")]: {
+    [breakpoints.up("xs")]: {
       display:
         noCollapse || (transparentSidenav && miniSidenav) || miniSidenav
           ? "none !important"

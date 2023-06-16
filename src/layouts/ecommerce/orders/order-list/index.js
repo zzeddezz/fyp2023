@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -19,7 +19,10 @@ import Footer from "components/MDComponents/Footer";
 import DataTable from "components/MDComponents/Tables/DataTable";
 
 // Data
-import dataTableData from "layouts/ecommerce/orders/order-list/data/dataTableData";
+import dataTableDataDefault from "layouts/ecommerce/orders/order-list/data/dataTableData";
+
+// API
+import { getOrderOrderList } from "util/APIHelper";
 
 function OrderList() {
   const [menu, setMenu] = useState(null);
@@ -27,6 +30,21 @@ function OrderList() {
   const openMenu = (event) => setMenu(event.currentTarget);
   const closeMenu = () => setMenu(null);
 
+  const [dataTableData, setDataTableData] = useState({
+    columns: [],
+    rows: [],
+  });
+
+  useEffect(() => {
+    const runAsync = async () => {
+      const dataTableDataResponse = await getOrderOrderList();
+      const dataTableDataContent = {};
+      dataTableDataContent.columns = dataTableDataDefault.columns;
+      dataTableDataContent.rows = dataTableDataResponse.data.message.rows;
+      setDataTableData(dataTableDataContent);
+    };
+    runAsync();
+  }, []);
   const renderMenu = (
     <Menu
       anchorEl={menu}

@@ -46,30 +46,6 @@ function configs(labels, datasets) {
         intersect: false,
         mode: "index",
       },
-      scales: {
-        y: {
-          grid: {
-            drawBorder: false,
-            display: false,
-            drawOnChartArea: false,
-            drawTicks: false,
-          },
-          ticks: {
-            display: false,
-          },
-        },
-        x: {
-          grid: {
-            drawBorder: false,
-            display: false,
-            drawOnChartArea: false,
-            drawTicks: false,
-          },
-          ticks: {
-            display: false,
-          },
-        },
-      },
     },
   };
 }

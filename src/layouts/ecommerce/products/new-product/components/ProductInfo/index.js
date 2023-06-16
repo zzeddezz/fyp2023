@@ -14,10 +14,6 @@ import MDInput from "components/MDBase/MDInput";
 import FormField from "layouts/ecommerce/products/new-product/components/FormField";
 
 function ProductInfo() {
-  const [editorValue, setEditorValue] = useState(
-    "<p>Some initial <strong>bold</strong> text</p><br><br><br><br>"
-  );
-
   return (
     <MDBox>
       <MDTypography variant="h5">Product Information</MDTypography>
@@ -42,7 +38,7 @@ function ProductInfo() {
                 </MDTypography>
               </MDTypography>
             </MDBox>
-            <MDEditor value={editorValue} onChange={setEditorValue} />
+            <MDEditor />
           </Grid>
           <Grid item xs={12} sm={6}>
             <MDBox mb={3}>

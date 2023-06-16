@@ -1,3 +1,6 @@
+// Material Dashboard 2 PRO React base styles
+import typography from "assets/theme/base/typography";
+
 function configs(labels, datasets) {
   return {
     data: {
@@ -29,11 +32,10 @@ function configs(labels, datasets) {
           ticks: {
             display: true,
             padding: 10,
-            color: "#9ca2b7",
+            color: "#b2b9bf",
             font: {
-              size: 14,
-              weight: 300,
-              family: "Roboto",
+              size: 11,
+              family: typography.fontFamily,
               style: "normal",
               lineHeight: 2,
             },
@@ -50,12 +52,11 @@ function configs(labels, datasets) {
           },
           ticks: {
             display: true,
-            color: "#9ca2b7",
-            padding: 10,
+            color: "#b2b9bf",
+            padding: 20,
             font: {
-              size: 14,
-              weight: 300,
-              family: "Roboto",
+              size: 11,
+              family: typography.fontFamily,
               style: "normal",
               lineHeight: 2,
             },

@@ -5,6 +5,17 @@ import PropTypes from "prop-types";
 
 // react-chartjs-2 components
 import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -17,6 +28,17 @@ import MDTypography from "components/MDBase/MDTypography";
 
 // ReportsLineChart configurations
 import configs from "components/MDComponents/Charts/LineCharts/ReportsLineChart/configs";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 function ReportsLineChart({ color, title, description, date, chart }) {
   const { data, options } = configs(chart.labels || [], chart.datasets || {});
@@ -36,7 +58,7 @@ function ReportsLineChart({ color, title, description, date, chart }) {
               mt={-5}
               height="12.5rem"
             >
-              <Line data={data} options={options} />
+              <Line data={data} options={options} redraw />
             </MDBox>
           ),
           [chart, color]
@@ -65,7 +87,7 @@ function ReportsLineChart({ color, title, description, date, chart }) {
 
 // Setting default values for the props of ReportsLineChart
 ReportsLineChart.defaultProps = {
-  color: "dark",
+  color: "info",
   description: "",
 };
 

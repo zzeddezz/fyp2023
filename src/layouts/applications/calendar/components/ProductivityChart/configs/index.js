@@ -3,7 +3,7 @@ import colors from "assets/theme/base/colors";
 
 const { white } = colors;
 
-function configs(backgroundColor) {
+function configs() {
   return {
     data: {
       labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -14,7 +14,7 @@ function configs(backgroundColor) {
           pointRadius: 0,
           borderColor: white.main,
           borderWidth: 2,
-          backgroundColor,
+          backgroundColor: "transparent",
           data: [50, 45, 60, 60, 80, 65, 90, 80, 100],
           maxBarThickness: 6,
           fill: true,
