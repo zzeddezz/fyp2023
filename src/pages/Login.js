@@ -17,7 +17,7 @@ function Login() {
     onSubmit: async (values) => {
       try {
         await axios
-          .get("https://us-central1-booking-system-fyp.cloudfunctions.net/server/user/login", {
+          .get(`${process.env.REACT_APP_API_URL}/user/login`, {
             params: values,
           })
           .then((response) => {

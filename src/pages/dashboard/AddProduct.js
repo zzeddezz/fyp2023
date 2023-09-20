@@ -42,7 +42,7 @@ function AddProduct() {
 
       try {
         await axios
-          .post("https://us-central1-booking-system-fyp.cloudfunctions.net/server/product", formData)
+          .post(`${process.env.REACT_APP_API_URL}/product`, formData)
           .then((response) => {
             console.log(response);
           });

@@ -6,7 +6,7 @@ function Products() {
 
   useEffect(() => {
     try {
-      axios.get("https://us-central1-booking-system-fyp.cloudfunctions.net/server/product/allproduct").then((response) => {
+      axios.get(`${process.env.REACT_APP_API_URL}/product/allproduct`).then((response) => {
         setData(response.data);
       });
     } catch (error) {

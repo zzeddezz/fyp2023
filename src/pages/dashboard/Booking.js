@@ -42,7 +42,7 @@ function Booking() {
 
   const getBooking = async () => {
     try {
-      const response = await axios.get("https://us-central1-booking-system-fyp.cloudfunctions.net/server/booking/all");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/booking/all`);
       setDataPending(
         response.data.filter(
           (item) => item.status === "Pending" || item.status === "pending"

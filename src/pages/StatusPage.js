@@ -14,7 +14,7 @@ function StatusPage() {
   const handleSubmit = async () => {
     try {
       const response = await axios.get(
-        `https://us-central1-booking-system-fyp.cloudfunctions.net/server/booking/status?q=${search}`
+        `${process.env.REACT_APP_API_URL}/booking/status?q=${search}`
       );
       setData(response.data);
     } catch (error) {

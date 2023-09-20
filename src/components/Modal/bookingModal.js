@@ -34,7 +34,7 @@ function BookingModal(props) {
       }
 
       const formDataObject = Object.fromEntries(formData.entries());
-      await axios.put(`https://us-central1-booking-system-fyp.cloudfunctions.net/server/booking/${id}`, formDataObject);
+      await axios.put(`${process.env.REACT_APP_API_URL}/booking/${id}`, formDataObject);
     } catch (error) {
       console.log(error);
     }

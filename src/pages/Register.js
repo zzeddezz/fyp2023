@@ -45,7 +45,7 @@ function Register() {
       try {
         setLoading(true);
         await axios
-          .post("https://us-central1-booking-system-fyp.cloudfunctions.net/server/user", values)
+          .post(`${process.env.REACT_APP_API_URL}/user`, values)
           .then((response) => {
             setLoading(false);
             setSuccessMsg("Successfully Registered");

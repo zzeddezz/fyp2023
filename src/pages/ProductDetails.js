@@ -9,7 +9,7 @@ function ProductDetails() {
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get(`https://us-central1-booking-system-fyp.cloudfunctions.net/server/product/${id}`).then((response) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/product/${id}`).then((response) => {
       setData(response.data);
     });
   }, []);
@@ -39,7 +39,7 @@ function ProductDetails() {
 
     try {
       await axios
-        .post("https://us-central1-booking-system-fyp.cloudfunctions.net/server/booking", formDataObject)
+        .post(`${process.env.REACT_APP_API_URL}/booking`, formDataObject)
         .then((response) => {
           console.log(response);
         });
