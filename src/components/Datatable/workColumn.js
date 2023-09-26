@@ -52,3 +52,15 @@ export const columns = [
     ],
   },
 ];
+
+export const remarkColumns = [
+  {
+    name: "No.",
+    cell: (row, index) => <div>{index + 1}</div>,
+    width: "4rem",
+  },
+  {
+    name: "Remark",
+    selector: (row) => row.year,
+  },
+];

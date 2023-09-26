@@ -1,4 +1,5 @@
 import dateFormat from "dateformat";
+import jwt from "jwt-decode";
 
 export const columns = [
   {
