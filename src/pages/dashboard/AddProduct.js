@@ -1,13 +1,65 @@
-import React, { useState } from "react";
-import Sidenav from "../../components/Sidenav";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import Dropzone from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import * as Yup from "yup";
 import axios from "axios";
 
-function AddProduct() {
-  const [images, setImages] = useState([]);
+// components
+import Sidenav from "../../components/Sidenav";
+import Footer from "../../components/Footer";
+import AddProductModal from "../../components/Modal/addProductModal";
 
+// context
+import { useSideNav } from "../../utils/resizeContext";
+
+function AddProduct() {
+  const { isOpen, toggleIsOpen } = useSideNav();
+  const [images, setImages] = useState([]);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => images.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+
+  // set dropzone
+  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
+    useDropzone({
+      maxFiles: 1,
+      accept: {
+        "image/*": [],
+      },
+      onDrop: (acceptedFiles) => {
+        setImages(
+          acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          )
+        );
+      },
+    });
+
+  const thumbs = images.map((file) => (
+    <div
+      className="inline-flex border rounded-md mb-8 mr-8 w-28 h-28 p-2 box-border"
+      key={file.name}
+    >
+      <div className="flex min-w-0 overflow-hidden">
+        <img
+          src={file.preview}
+          className="block w-auto h-full"
+          // Revoke data uri after image is loaded
+          onLoad={() => {
+            URL.revokeObjectURL(file.preview);
+          }}
+        />
+      </div>
+    </div>
+  ));
+
+  // set formik for form data
   const formik = useFormik({
     initialValues: {
       productName: "",
@@ -34,17 +86,15 @@ function AddProduct() {
         formData.append("images", image);
       });
 
-      // const data = {};
-      // for (let [key, value] of formData.entries()) {
-      //   data[key] = value;
-      // }
-      // console.log(data);
-
       try {
         await axios
           .post(`${process.env.REACT_APP_API_URL}/product`, formData)
           .then((response) => {
-            console.log(response);
+            setSuccessMsg("New product created!");
+            setIsModalOpen(true);
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
           });
       } catch (error) {
         console.log(error);
@@ -52,28 +102,48 @@ function AddProduct() {
     },
   });
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="w-full flex min-h-screen justify-center">
-      <div className="w-48 flex flex-col">
+    <div className="w-full min-h-screen flex flex-row">
+      <div className="fixed">
         <Sidenav />
       </div>
-      <div className="flex-1 justify-center items-center">
-        <div className="px-20 py-12">
-          <h1 className="font-medium text-2xl text-primary">Add Product</h1>
-          <div className="flex justify-center items-center">
+      <div
+        className={`w-full duration-300 min-h-screen ${
+          isOpen === true ? "ml-20" : "ml-60"
+        }`}
+      >
+        <div className="w-full min-h-screen flex flex-col">
+          <section className="flex flex-1 flex-col py-5 px-10 text-primary">
+            <h1 className="font-medium text-2xl mt-10">Add Product</h1>
+
             <form
               onSubmit={formik.handleSubmit}
               className="border-4 w-full mt-10 border-gray-1 rounded-md shadow-lg p-10"
             >
+              {successMsg !== "" ? (
+                <p className="my-5 md:w-1/2 text-sm block p-3 rounded bg-secondary text-primary">
+                  {successMsg}
+                </p>
+              ) : null}
               <div className="mb-5">
                 <label
-                  className="block mb-2 font-semibold text-primary"
+                  className={`block mb-2 font-semibold text-primary ${
+                    formik.touched.productName && formik.errors.productName
+                      ? "text-red-danger"
+                      : ""
+                  }`}
                   htmlFor=""
                 >
-                  Product Name
+                  {formik.touched.productName && formik.errors.productName
+                    ? formik.errors.productName
+                    : "Product Name"}
                 </label>
                 <input
-                  className="p-2 w-1/2 border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0 "
+                  className="p-2 md:w-1/2 w-full border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0 "
                   type="text"
                   name="productName"
                   value={formik.values.productName}
@@ -85,13 +155,19 @@ function AddProduct() {
 
               <div className="mb-5">
                 <label
-                  className="block mb-2 font-semibold text-primary"
+                  className={`block mb-2 font-semibold text-primary ${
+                    formik.touched.length && formik.errors.length
+                      ? "text-red-danger"
+                      : ""
+                  }`}
                   htmlFor=""
                 >
-                  Length (ft)
+                  {formik.touched.length && formik.errors.length
+                    ? formik.errors.length
+                    : "Length (ft)"}
                 </label>
                 <input
-                  className="p-2 w-1/2 border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0 "
+                  className="p-2 md:w-1/2 w-full border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0 "
                   type="text"
                   name="length"
                   value={formik.values.length}
@@ -103,13 +179,19 @@ function AddProduct() {
 
               <div className="mb-5">
                 <label
-                  className="block mb-2 font-semibold text-primary"
+                  className={`block mb-2 font-semibold text-primary ${
+                    formik.touched.thickness && formik.errors.thickness
+                      ? "text-red-danger"
+                      : ""
+                  }`}
                   htmlFor=""
                 >
-                  Thickness (mm)
+                  {formik.touched.thickness && formik.errors.thickness
+                    ? formik.errors.thickness
+                    : "Thickness (mm)"}
                 </label>
                 <input
-                  className="p-2 w-1/2 border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0 "
+                  className="p-2 md:w-1/2 w-full border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0 "
                   type="text"
                   name="thickness"
                   value={formik.values.thickness}
@@ -121,13 +203,19 @@ function AddProduct() {
 
               <div className="mb-5">
                 <label
-                  className="block mb-2 font-semibold text-primary"
+                  className={`block mb-2 font-semibold text-primary ${
+                    formik.touched.material && formik.errors.material
+                      ? "text-red-danger"
+                      : ""
+                  }`}
                   htmlFor=""
                 >
-                  Material
+                  {formik.touched.material && formik.errors.material
+                    ? formik.errors.material
+                    : "Material"}
                 </label>
                 <input
-                  className="p-2 w-1/2 border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0 "
+                  className="p-2 md:w-1/2 w-full border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0 "
                   type="text"
                   name="material"
                   value={formik.values.material}
@@ -139,13 +227,19 @@ function AddProduct() {
 
               <div className="mb-5">
                 <label
-                  className="block mb-2 font-semibold text-primary"
+                  className={`block mb-2 font-semibold text-primary ${
+                    formik.touched.description && formik.errors.description
+                      ? "text-red-danger"
+                      : ""
+                  }`}
                   htmlFor=""
                 >
-                  Description
+                  {formik.touched.description && formik.errors.description
+                    ? formik.errors.description
+                    : "Description"}
                 </label>
                 <textarea
-                  className="p-2 w-1/2 border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0"
+                  className="p-2 md:w-1/2 w-full border-2 border-gray-2 rounded focus:border-2 focus:border-primary focus:outline-0"
                   name="description"
                   value={formik.values.description}
                   onChange={formik.handleChange}
@@ -163,30 +257,43 @@ function AddProduct() {
                 >
                   Product Image
                 </label>
-                <Dropzone
-                  onDrop={(acceptedFiles) => setImages(acceptedFiles)}
-                  multiple
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <section className="flex items-center justify-center w-1/2 shadow rounded-md border-2 border-dotted border-gray-2 cursor-pointer hover:bg-gray-1">
-                      <div {...getRootProps()}>
-                        <input {...getInputProps()} />
-                        <p className="px-10 py-20">Drag 'n' drop files here</p>
-                      </div>
-                    </section>
-                  )}
-                </Dropzone>
+                <section className="md:w-1/2 w-full">
+                  <div
+                    className={`flex flex-1 flex-col items-center p-10 border-2 border-dotted rounded-md cursor-pointer  ${
+                      isFocused
+                        ? "border-gray-2"
+                        : isDragAccept
+                        ? "border-green-success"
+                        : isDragReject
+                        ? "border-red-danger"
+                        : ""
+                    } `}
+                    {...getRootProps()}
+                  >
+                    <input {...getInputProps()} />
+                    <p>Drag 'n' drop files here</p>
+                  </div>
+                  <aside className="flex flex-row flex-wrap mt-10">
+                    {thumbs}
+                  </aside>
+                </section>
               </div>
 
               <div className="flex justify-start items-center">
                 <button
                   type="submit"
-                  className="px-5 py-2 border border-r-4 border-b-4 shadow-md rounded bg-secondary text-background text-sm text-primary w-1/2 hover:bg-primary hover:text-background hover:border-primary transition-all"
+                  className="px-5 py-2 border border-r-4 border-b-4 shadow-md rounded bg-secondary text-background text-sm text-primary md:w-1/2 w-full hover:bg-primary hover:text-background hover:border-primary transition-all"
                 >
                   Submit
                 </button>
               </div>
             </form>
+          </section>
+          {isModalOpen && (
+            <AddProductModal open={isModalOpen} clickClose={closeModal} />
+          )}
+          <div className="w-full">
+            <Footer />
           </div>
         </div>
       </div>

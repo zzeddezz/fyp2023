@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 import Box from "@mui/material/Box";
 import dateFormat from "dateformat";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
+import jwt from "jwt-decode";
+
+// icons
+import CloseIcon from "@mui/icons-material/Close";
 
 function BookingModal(props) {
   const [formData, setFormData] = useState(new FormData());
@@ -13,10 +15,12 @@ function BookingModal(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newBookingDate, setNewBookingDate] = useState(props.bookingDate);
   const [isEdit, setIsEdit] = useState(false);
+  const token = localStorage.getItem("token");
+  const decodedUser = jwt(token);
 
   const handleSubmit = async (id, bookingDate) => {
     try {
-      console.log(id);
+      // console.log(id);
 
       if (isReject) {
         formData.set("reason", reason);
@@ -34,22 +38,30 @@ function BookingModal(props) {
       }
 
       const formDataObject = Object.fromEntries(formData.entries());
-      await axios.put(`${process.env.REACT_APP_API_URL}/booking/${id}`, formDataObject);
+      const res = await axios.put(
+        `${process.env.REACT_APP_API_URL}/booking/${id}`,
+        formDataObject
+      );
+
+      if (res) {
+        window.location.reload();
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <Box className="flex w-full justify-center items-center h-full">
         <div className=" w-2/5 bg-background rounded flex justify-start items-start relative">
           {/* close button */}
           <button className="absolute top-5 right-5" onClick={props.clickClose}>
-            <FontAwesomeIcon icon={faX} fontSize={20} color="red" />
+            <CloseIcon fontSize="small" className="text-red-danger" />
           </button>
           <div className="p-10 w-full h-full flex flex-col">
-            <h1 className="font-semibold text-lg">Booking Details</h1>
+            <h1 className="font-semibold text-lg text-primary">
+              Booking Details
+            </h1>
 
             <form className="mt-10 text-sm" action="">
               <div className="flex">
@@ -158,18 +170,20 @@ function BookingModal(props) {
               {/* button section */}
               <div className="flex justify-end mt-5">
                 <div className="flex justify-end mt-5">
-                  {!isReject && props.status === "Pending" ? (
+                  {!isReject &&
+                  decodedUser.email === "admin@gmail.com" &&
+                  props.status === "Pending" ? (
                     <>
                       <button
                         type="button"
-                        className="px-3 py-2 mr-2 border rounded shadow-md bg hover:bg-red-danger hover:shadow hover:bg-primary hover:text-background  transition-all"
+                        className="px-3 py-2 mr-2 border rounded shadow-md bg hover:bg-red-danger text-primary font-medium hover:shadow hover:bg-primary hover:text-background  transition-all"
                         onClick={() => setIsReject(true)}
                       >
                         Reject
                       </button>
                       <button
                         type="button"
-                        className="px-3 py-2 ml-2 border rounded shadow-md bg-secondary hover:shadow hover:bg-primary hover:text-background  transition-all"
+                        className="px-3 py-2 ml-2 border rounded shadow-md bg-primary text-secondary font-medium hover:shadow hover:bg-secondary hover:text-primary transition-all"
                         onClick={() =>
                           handleSubmit(props.bookingId, props.bookingDate)
                         }
@@ -177,32 +191,38 @@ function BookingModal(props) {
                         Accept
                       </button>
                     </>
-                  ) : isReject && props.status === "Pending" ? (
+                  ) : isReject &&
+                    decodedUser.email === "admin@gmail.com" &&
+                    props.status === "Pending" ? (
                     <>
                       <button
                         type="button"
-                        className="px-3 py-2 mr-2 border rounded shadow-md bg hover:bg-red-danger hover:shadow hover:bg-primary hover:text-background  transition-all"
+                        className="px-3 py-2 mr-2 border rounded shadow-md font-medium hover:bg-red-danger hover:shadow hover:bg-primary hover:text-background  transition-all"
                         onClick={props.clickClose}
                       >
                         Cancel
                       </button>
                       <button
                         type="button"
-                        className="px-3 py-2 ml-2 border rounded shadow-md bg-secondary hover:shadow hover:bg-primary hover:text-background  transition-all"
+                        className="px-3 py-2 ml-2 border rounded shadow-md text-secondary font-medium bg-primary hover:shadow hover:bg-secondary hover:text-primary  transition-all"
                         onClick={() => handleSubmit(props.bookingId)}
                       >
                         Submit
                       </button>
                     </>
-                  ) : !isEdit && props.status === "Reject" ? (
+                  ) : !isEdit &&
+                    decodedUser.email === "admin@gmail.com" &&
+                    props.status === "Reject" ? (
                     <button
                       type="button"
-                      className="px-3 py-2 ml-2 border rounded shadow-md bg-secondary hover:shadow hover:bg-primary hover:text-background  transition-all"
+                      className="px-3 py-2 ml-2 border rounded shadow-md bg-primary  text-secondary font-medium hover:shadow hover:bg-secondary hover:text-primary transition-all"
                       onClick={() => setIsEdit(true)}
                     >
                       Edit
                     </button>
-                  ) : isEdit && props.status === "Reject" ? (
+                  ) : isEdit &&
+                    decodedUser.email === "admin@gmail.com" &&
+                    props.status === "Reject" ? (
                     <>
                       <button
                         type="button"
