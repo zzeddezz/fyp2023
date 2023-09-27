@@ -41,7 +41,6 @@ function ProductDetails() {
     formData.set("productName", data.name);
 
     const formDataObject = Object.fromEntries(formData.entries());
-    console.log(formDataObject);
 
     try {
       await axios
@@ -69,7 +68,7 @@ function ProductDetails() {
               <div className="flex md:flex-row flex-col w-full px-8">
                 <div className="md:w-1/3 w-full">
                   <img
-                    className="w-full h-96 object-cover shadow-lg"
+                    className="w-[32rem] h-96 object-cover shadow-lg"
                     src={`${data.images[0].path}`}
                     alt={data.name}
                   />

@@ -257,7 +257,7 @@ function AddProduct() {
                 >
                   Product Image
                 </label>
-                <section className="w-1/2">
+                <section className="md:w-1/2 w-full">
                   <div
                     className={`flex flex-1 flex-col items-center p-10 border-2 border-dotted rounded-md cursor-pointer  ${
                       isFocused

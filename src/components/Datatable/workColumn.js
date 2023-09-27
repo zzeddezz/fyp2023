@@ -7,27 +7,27 @@ export const columns = [
   },
   {
     name: "Name",
-    selector: (row) => row.booking.name,
+    selector: (row) => row.name,
     sortable: true,
   },
   {
     name: "Email",
-    selector: (row) => row.booking.email,
+    selector: (row) => row.email,
     sortable: true,
   },
   {
     name: "Phone",
-    selector: (row) => row.booking.phone,
+    selector: (row) => row.phone,
     sortable: true,
   },
   {
-    name: "Start Date",
-    selector: (row) => dateFormat(row.startDate, "mmmm dS, yyyy"),
+    name: "Date Submit",
+    selector: (row) => dateFormat(row.submitDate, "mmmm dS, yyyy"),
     sortable: true,
   },
   {
     name: "Product Name",
-    selector: (row) => row.booking.productName,
+    selector: (row) => row.productName,
     sortable: true,
   },
   {
@@ -50,17 +50,5 @@ export const columns = [
         },
       },
     ],
-  },
-];
-
-export const remarkColumns = [
-  {
-    name: "No.",
-    cell: (row, index) => <div>{index + 1}</div>,
-    width: "4rem",
-  },
-  {
-    name: "Remark",
-    selector: (row) => row.year,
   },
 ];

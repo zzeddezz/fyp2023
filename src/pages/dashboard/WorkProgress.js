@@ -15,6 +15,7 @@ import WorkProgressModal from "../../components/Modal/workProgressModal";
 
 // context
 import { useSideNav } from "../../utils/resizeContext";
+import jwt from "jwt-decode";
 
 // search box
 const FilterComponent = ({ filterText, onFilter }) => (
@@ -45,12 +46,20 @@ function WorkProgress() {
   const [selectedRow, setSelectedRow] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const token = localStorage.getItem("token");
+  const decodedUser = jwt(token);
+
   useEffect(() => {
     localStorage.setItem("WselectedTab", value);
-    getBooking();
+
+    if (decodedUser.email == "admin@gmail.com") {
+      getWork();
+    } else {
+      getWorkUser();
+    }
   }, [value]);
 
-  const getBooking = async () => {
+  const getWork = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/work/all`);
       setDataProgress(
@@ -66,7 +75,31 @@ function WorkProgress() {
           (item) => item.workStatus === "Done" || item.workStatus === "done"
         )
       );
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const getWorkUser = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/work/user/${decodedUser.email}`
+      );
       console.log(response.data);
+      setDataProgress(
+        response.data.filter(
+          (item) =>
+            item.workStatus === "In Progress" ||
+            item.workStatus === "in progress"
+        )
+      );
+
+      setDataDone(
+        response.data.filter(
+          (item) => item.workStatus === "Done" || item.workStatus === "done"
+        )
+      );
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -101,19 +134,16 @@ function WorkProgress() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log(newValue);
   };
 
   const filterItems = (data, filterText) =>
     data.filter(
       (item) =>
-        item.booking.name &&
-        item.booking.name.toLowerCase().includes(filterText.toLowerCase())
+        item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
     );
 
   const filteredItemsProgress = filterItems(dataProgress, filterText);
   const filteredItemsDone = filterItems(dataDone, filterText);
-  console.log(dataProgress);
 
   return (
     <div className="w-full min-h-screen flex flex-row">
@@ -176,14 +206,14 @@ function WorkProgress() {
                       open={isModalOpen}
                       onClose={closeModal}
                       clickClose={closeModal}
-                      product={selectedRow.booking.productName}
-                      name={selectedRow.booking.name}
-                      email={selectedRow.booking.email}
-                      phone={selectedRow.booking.phone}
+                      product={selectedRow.productName}
+                      name={selectedRow.name}
+                      email={selectedRow.email}
+                      phone={selectedRow.phone}
                       status={selectedRow.workStatus}
-                      address={selectedRow.booking.address}
-                      bookingKey={selectedRow.booking.bookingKey}
-                      date={selectedRow.date}
+                      address={selectedRow.address}
+                      bookingKey={selectedRow.bookingKey}
+                      date={selectedRow.submitDate}
                       bookingDate={selectedRow.bookingDate}
                       workId={selectedRow._id}
                     />
@@ -208,7 +238,7 @@ function WorkProgress() {
                       highlightOnHover
                     />
                   </div>
-                  {isModalOpen && selectedRow && (
+                  {/* {isModalOpen && selectedRow && (
                     <WorkProgressModal
                       open={isModalOpen}
                       onClose={closeModal}
@@ -224,7 +254,7 @@ function WorkProgress() {
                       bookingDate={selectedRow.bookingDate}
                       workId={selectedRow._id}
                     />
-                  )}
+                  )} */}
                 </TabPanel>
               </TabContext>
             </Box>
